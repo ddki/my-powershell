@@ -104,3 +104,16 @@ Import-Module posh-git
 ```
 
 ## 🧰 coreutils
+
+https://next.cyp0633.icu/post/%E7%94%A8-rust-uutils-%E6%9B%BF%E6%8D%A2-windows-powershell-%E5%86%85%E7%BD%AE-cmdlet/
+
+https://github.com/uutils/coreutils
+
+安装：
+```sh
+# use cargo 
+cargo install coreutils --features windows
+# use scoop
+scoop install uutils-coreutils
+```
+
