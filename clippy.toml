@@ -1,2 +1,3 @@
+# https://rust-coding-guidelines.github.io/rust-coding-guidelines-zh/safe-guides/Appendix/templates/clippy.toml.html
 too-many-arguments-threshold = 20
 enum-variant-name-threshold = 10

@@ -32,13 +32,19 @@ scoop install coreutils
 
 ### 📝 文件图标
 
-```sql
+```powershell
 Install-Module -Name Terminal-Icons -Repository PSGallery
+```
+
+use scoop:
+```powershell
+scoop bucket add extras
+scoop install terminal-icons
 ```
 
 ### 😮 oh-my-posh
 
-```sql
+```powershell
 Set-ExecutionPolicy Bypass -Scope LocalMachine -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
 ```
 
@@ -46,7 +52,7 @@ Set-ExecutionPolicy Bypass -Scope LocalMachine -Force; Invoke-Expression ((New-O
 
 https://ohmyposh.dev/docs/installation/fonts
 
-```sql
+```powershell
 oh-my-posh font install
 ```
 
@@ -57,7 +63,7 @@ oh-my-posh font install
 * https://github.com/abgox/PS-completions
 * https://github.com/PowerShell-Completion
 
-```sql
+```powershell
 Install-Module PSReadLine -Scope AllUsers
 Install-Module posh-git -Scope AllUsers
 Install-Module yarn-completion -Scope AllUsers
@@ -66,11 +72,11 @@ Install-Module npm-completion -Scope AllUsers
 
 ### 🛠 配置
 
-```sql
+```powershell
 notepad $PROFILE
 ```
 
-```sql
+```powershell
 $PSDefaultParameterValues['*:Language'] = 'zh-CN'
 
 Import-Module 'E:\development\vcpkg\scripts\posh-vcpkg'

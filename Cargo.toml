@@ -6,3 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dialoguer = "0.10.4"
+indicatif = "0.17.6"
+serde = { version = "1.0.188", features = ["derive"] }
+toml = "0.8.0"
+
+[dev-dependencies]
+serde = { version = "1.0.188", features = ["derive"] }
