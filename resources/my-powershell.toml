@@ -1,0 +1,76 @@
+# toml 规范 https://toml.io/cn/v1.0.0
+[workflow]
+name = "my-powershell 增强"
+version = "0.0.1"
+author = "ddki"
+description = "基于 Windows Terminal 对 powershell 增强"
+repository = ""
+config = ""
+proxy = ""
+
+
+[workflow.jobs.scoop]
+must = true
+sort = 1
+name = "scoop"
+description = "Scoop 是 Windows 下的包管理工具"
+home = "https://scoop.sh/"
+url = "get.scoop.sh"
+install.command = ["scoop_install.ps1"]
+install.args = { "start" = "-", "scoopDir" = "Scoop 的安装目录", "ScoopGlobalDir" = "Scoop 全局 app 的安装目录" }
+post_command = ["scoop bucket add extras"]
+
+
+[workflow.jobs.windows_terminal]
+must = true
+sort = 2
+name = "Windows Terminal"
+description = "Windows Terminal"
+home = "https://github.com/microsoft/terminal"
+install.command = ["scoop install windows-terminal"]
+install.args = {}
+
+
+[workflow.jobs.coreutils]
+must = false
+sort = 3
+name = "coreutils"
+description = "使用rust实现的跨平台GNU coreutils，包含了Linux上的常用命令。"
+home = "https://github.com/uutils/coreutils"
+install.command = ["scoop install uutils-coreutils"]
+
+
+[workflow.jobs.oh_my_posh]
+must = false
+sort = 4
+name = "oh-my-posh"
+description = "PowerShell 主题"
+home = "https://ohmyposh.dev"
+url = "https://ohmyposh.dev/install.ps1"
+pre_command = ["pwsh"]
+install.command = [
+    "scoop install https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json",
+]
+
+
+[workflow.jobs.terminal_icons]
+must = false
+sort = 5
+name = "Terminal-Icons"
+description = "PowerShell 模块，用于在终端中显示文件和文件夹图标。"
+home = "https://github.com/devblackops/Terminal-Icons"
+install.command = ["scoop install terminal-icons"]
+
+
+[workflow.jobs.pscompletions]
+must = false
+sort = 6
+name = "PSCompletions"
+description = "PowerShell 补全，默认启用 PowerShell 补全（git、scoop）"
+home = "https://github.com/abgox/PSCompletions"
+pre_command = ["pwsh"]
+install.command = [
+    "Install-Module PSCompletions",
+    "echo 'Import-Module PSCompletions' >> $PROFILE",
+]
+post_command = ["psc add git", "psc add scoop"]

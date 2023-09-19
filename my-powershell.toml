@@ -9,7 +9,7 @@ config = ""
 proxy = ""
 
 
-[workflow.job-scoop]
+[workflow.jobs.scoop]
 must = true
 sort = 1
 name = "scoop"
@@ -21,7 +21,7 @@ install.args = { "start" = "-", "scoopDir" = "Scoop 的安装目录", "ScoopGlob
 post_command = ["scoop bucket add extras"]
 
 
-[workflow.job-windows_terminal]
+[workflow.jobs.windows_terminal]
 must = true
 sort = 2
 name = "Windows Terminal"
@@ -31,7 +31,7 @@ install.command = ["scoop install windows-terminal"]
 install.args = {}
 
 
-[workflow.job-coreutils]
+[workflow.jobs.coreutils]
 must = false
 sort = 3
 name = "coreutils"
@@ -40,7 +40,7 @@ home = "https://github.com/uutils/coreutils"
 install.command = ["scoop install uutils-coreutils"]
 
 
-[workflow.job-oh_my_posh]
+[workflow.jobs.oh_my_posh]
 must = false
 sort = 4
 name = "oh-my-posh"
@@ -53,7 +53,7 @@ install.command = [
 ]
 
 
-[workflow.job-terminal_icons]
+[workflow.jobs.terminal_icons]
 must = false
 sort = 5
 name = "Terminal-Icons"
@@ -62,7 +62,7 @@ home = "https://github.com/devblackops/Terminal-Icons"
 install.command = ["scoop install terminal-icons"]
 
 
-[workflow.job-pscompletions]
+[workflow.jobs.pscompletions]
 must = false
 sort = 6
 name = "PSCompletions"
