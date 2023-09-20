@@ -1,7 +1,7 @@
 use core::workflow::Workflow;
 use std::{fs::File, io::ErrorKind};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use clap::Parser;
 use rust_embed::RustEmbed;
 
@@ -9,7 +9,7 @@ pub mod core;
 pub mod constant;
 pub mod util;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 struct Config {
     workflow: Option<Workflow>
 }
@@ -25,9 +25,10 @@ struct Asset;
 #[command(version = "0.0.1")]
 #[command(about = "My PowerShell", long_about = None)]
 pub struct Args {
-    #[arg(long, default_value = "my-powershell.toml", help = "配置文件。默认：my-powershell.toml")]
+    #[arg(long, default_value = "my-powershell.toml", help = "配置文件，支持toml、json。默认：my-powershell.toml")]
     config: String,
 }
+
 
 fn main() {
     let args = Args::parse();
@@ -37,11 +38,13 @@ fn main() {
         Ok(file) => file,
         Err(error) => match error.kind() {
             ErrorKind::NotFound => {
-                // 加载默认配置文件
-                let default_config_template = Asset::get("my-powershell.toml").unwrap();
-                // 配置文件不存在，创建一个新的默认配置文件
-                std::fs::write(config_path, std::str::from_utf8(default_config_template.data.as_ref()).unwrap()).expect("创建默认配置文件出错！");
-                // 这里可以做一些处理或返回一个默认的文件对象
+                for config_file_name in ["my-powershell.toml", "my-powershell.json"] {
+                    // 加载默认配置文件
+                    let default_config_template = Asset::get(config_file_name).unwrap();
+                    // 配置文件不存在，创建新的默认配置文件
+                    std::fs::write(config_path, std::str::from_utf8(default_config_template.data.as_ref()).unwrap()).expect("创建默认配置文件出错！");
+                }
+                // 返回配置文件
                 File::open(config_path).unwrap()
             },
             _ => {
@@ -51,9 +54,19 @@ fn main() {
     };
 
     let config_str = std::fs::read_to_string(config_path).expect("打开配置文件出错！");
-    let config: Config = toml::from_str(&config_str).unwrap();
+    let mut config: Config = Config { workflow: None };
+    if let Some(suffix) = config_path.split(".").last() {
+        match suffix {
+            "json" => config = serde_json::from_str(&config_str).unwrap(),
+            "toml" => config = toml::from_str(&config_str).unwrap(),
+            _ => panic!("不支持 {} 格式的配置文件", suffix)
+        }
+    }
+    // debug 模式打印日志
     if cfg!(debug_assertions) {
         println!("config = {:#?}", config);
+        println!("json = {}", serde_json::to_string(&config).unwrap());
+        println!("toml = {}", toml::to_string_pretty(&config).unwrap())
     }
     let workflow = config.workflow.as_ref().unwrap();
     // 执行工作流
