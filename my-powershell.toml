@@ -1,6 +1,6 @@
 # toml 规范 https://toml.io/cn/v1.0.0
 [workflow]
-name = "my-powershell 增强"
+name = "my-powershell"
 version = "0.0.1"
 author = "ddki"
 description = "基于 Windows Terminal 对 powershell 增强"

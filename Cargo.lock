@@ -317,10 +317,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f232d6ef707e1956a43342693d2a31e72989554d58299d7a88738cc95b0d35c"
 
 [[package]]
-name = "my-powershell"
+name = "my_powershell"
 version = "0.0.1"
 dependencies = [
  "clap",
+ "console",
  "dialoguer",
  "embed-resource",
  "indicatif",

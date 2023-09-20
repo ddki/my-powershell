@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use console::style;
 use serde::{Deserialize, Serialize};
 
 use super::job::Job;
@@ -17,11 +18,12 @@ pub struct Workflow {
 
 impl Workflow {
     pub fn execute(&self) {
-        println!("==================== 🏗️ 开始执行 Workflow {:?} ====================", self.name.as_ref().unwrap());
-        println!("[{:?}] 描述: {:?}", self.name.as_ref().unwrap(), self.description.as_ref().unwrap());
-        println!("[{:?}] 版本: {:?}\t 作者: {:?}", self.name.as_ref().unwrap(), self.version.as_ref().unwrap(), self.author.as_ref().unwrap());
-        println!("[{:?}] 仓库地址： {:?}", self.name.as_ref().unwrap(), self.repository.as_ref().unwrap());
-        println!("[{:?}] 代理： {:?}", self.name.as_ref().unwrap(), self.proxy.as_ref().unwrap());
+        crate::util::print_line_title_default(&format!("🏗️   开始执行 Workflow {}", self.name.as_ref().unwrap()));
+        println!("📄 描述: {}", style(self.description.as_ref().unwrap()).blue());
+        println!("🔖 版本: {}", style(self.version.as_ref().unwrap()).blue());
+        println!("😄 作者: {}", style(self.author.as_ref().unwrap()).blue());
+        println!("🔗 仓库地址： {}", style(self.repository.as_ref().unwrap()).blue());
+        println!("⚡ 代理： {}", style(self.proxy.as_ref().unwrap()).blue());
         // todo 设置代理
         let mut jobs = Vec::<Job>::new();
         for (_, job) in self.jobs.as_ref().unwrap().iter() {

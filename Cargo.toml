@@ -1,14 +1,20 @@
 [package]
-name = "my-powershell"
+name = "my_powershell"
+authors = ["ddki"]
 version = "0.0.1"
 edition = "2021"
 description = "My PowerShell"
+repository = "https://github.com/ddki/my-powershell"
+license = "GPL-3.0"
+keywords = ["cli", "windows", "powershell"]
+readme = "README.md"
 build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 clap = { version = "4.4.4", features = ["derive"] }
+console = "0.15.7"
 dialoguer = "0.10.4"
 indicatif = "0.17.6"
 rust-embed = "8.0.0"

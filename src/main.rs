@@ -6,6 +6,8 @@ use clap::Parser;
 use rust_embed::RustEmbed;
 
 pub mod core;
+pub mod constant;
+pub mod util;
 
 #[derive(Debug, Deserialize)]
 struct Config {
@@ -29,7 +31,6 @@ pub struct Args {
 
 fn main() {
     let args = Args::parse();
-    println!("args: {:?}", args);
     let config_path = &args.config;
     // 加载配置文件
     let _ = match File::open(config_path) {
@@ -51,7 +52,9 @@ fn main() {
 
     let config_str = std::fs::read_to_string(config_path).expect("打开配置文件出错！");
     let config: Config = toml::from_str(&config_str).unwrap();
-    // println!("config = {:#?}", config);
+    if cfg!(debug_assertions) {
+        println!("config = {:#?}", config);
+    }
     let workflow = config.workflow.as_ref().unwrap();
     // 执行工作流
     workflow.execute();

@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use console::style;
 use serde::{ Deserialize, Serialize };
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -11,20 +12,25 @@ pub struct Job {
     url: Option<String>,
     pre_command: Option<Vec<String>>,
     post_command: Option<Vec<String>>,
-    install: Option<Install>
+    installs: Option<Vec<Install>>
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Install {
-    command: Option<Vec<String>>,
+    name: Option<String>,
+    description: Option<String>,
+    command: Option<String>,
     args: Option<HashMap<String, String>>
 }
 
 impl Job {
     pub fn execute(&self) {
-        println!("\n==================== 🏗️ 开始执行 Job {:?} - {:?} ====================", self.sort.as_ref().unwrap(), self.name.as_ref().unwrap());
-        println!("{}", self.to_toml());
-        for install in self.install.as_ref().iter() {
+        println!();
+        crate::util::print_line_title_default(&format!("🏗️   开始执行 Job {}-{}", self.sort.as_ref().unwrap(), self.name.as_ref().unwrap()));
+        if cfg!(debug_assertions) {
+            println!("{}", style(self.to_toml()).blue().dim());
+        }
+        for install in self.installs.as_ref().unwrap().iter() {
             install.execute();
         }
     }
@@ -36,10 +42,8 @@ impl Job {
 
 impl Install {
     pub fn execute(&self) {
-        let commands = self.command.as_ref().unwrap().clone();
-        for command in commands {
-            println!("执行 Install [{:?}]", command);
-        }
+        let _commands = self.command.as_ref().unwrap().clone();
+        
     }
 
     pub fn to_toml(&self) -> String { toml::to_string(self).or(Err("")).unwrap() }
